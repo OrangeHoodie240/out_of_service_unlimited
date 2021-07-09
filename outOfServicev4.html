@@ -9,18 +9,6 @@
 			<input type='submit' value='Use File' /> 
 		</form>
 
-		<h3>Directions For Updating</h3>
-		<p>The page is only compatable with .csv files and so we have to convert the .xlsx file we are given 
-		   to a csv file before the page will load it</p>
-		<ul>
-			<li>Given a normal .xlsx Excell file, click the file tab in the upper left corner</li>
-			<li>Select the Save As option</li>
-			<li>Next to the Save button, you have an extension type list (currently showing Excell Workbook(*.xlsx)
-			    Scroll down to CSV UTF-8
-			</li>
-			<li>Save to the desktop as CSV UTF-8
-			
-		</ul>
 	</div>
 
 	<div id='application' style='display: none' >
@@ -47,6 +35,17 @@
 	</div>
 	<script>
 		
+		async function getCsv(){
+			const csv = await fetch('https://github.com/OrangeHoodie240/outOfServiceTrailerFilter/blob/master/Expirations.csv')
+				.then(resp =>{
+					return resp.json(); 
+				})
+				.then(data =>{
+					return data; 
+				});
+			console.log(csv);
+		}
+		getCsv(); 
 		function isOutOfService(trl){
 			trl = trl.slice(-4);
 			if(trl[2].toUpperCase().trim() === 'OUT OF SERVICE'){
