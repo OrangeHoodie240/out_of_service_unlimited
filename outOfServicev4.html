@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html lang='en'>
+<head></head>
+<body>
+	<div id='load'>
+		<form id='form'>
+			<input type='file' id='file' /> 
+			<input type='submit' value='Use File' /> 
+		</form>
+
+		<h3>Directions For Updating</h3>
+		<p>The page is only compatable with .csv files and so we have to convert the .xlsx file we are given 
+		   to a csv file before the page will load it</p>
+		<ul>
+			<li>Given a normal .xlsx Excell file, click the file tab in the upper left corner</li>
+			<li>Select the Save As option</li>
+			<li>Next to the Save button, you have an extension type list (currently showing Excell Workbook(*.xlsx)
+			    Scroll down to CSV UTF-8
+			</li>
+			<li>Save to the desktop as CSV UTF-8
+			
+		</ul>
+	</div>
+
+	<div id='application' style='display: none' >
+		<input type='text' id='control' />
+		<p id='output'></p>
+		<h3>Directions</h3>
+		<ul>
+			<li>Enter full trailer number and <strong>press enter</strong></li>
+			<li>For normal five-digit trailers, ommit the UL prefix.</li>
+				<ul>
+					<li>Given trailer UL53913 enter 53913 <strong>not UL53913</strong></li>
+				</ul>
+			<li>Three digit trailers require they be prefixed with either Q or F</li>
+			<ul>
+				<li>Trailer UICQ021 should be entered Q021</li>
+				<li>Trailer ULRF070 should be entered F070</li>
+			</ul>
+			<li>Letters are case insensitive so you can enter F070 or f070. Either will work.</li>
+			<li>6 digit lease trailers may be entered as normal.</li>
+			<ul>
+				<li>Given 535454 simply enter 535454</li>
+			</ul>
+		</ul>
+	</div>
+	<script>
+		
+		function isOutOfService(trl){
+			trl = trl.slice(-4);
+			if(trl[2].toUpperCase().trim() === 'OUT OF SERVICE'){
+				return true; 
+			}
+			else if(trl[3].trim().toUpperCase() === 'REQUIRED' && trl[1].trim().toUpperCase() === 'PRE'){
+				return true;
+			}
+			return false;
+		}
+
+		const form = document.getElementById('form'); 
+		let data = null; 
+		form.addEventListener('submit', async function(evt){
+			evt.preventDefault(); 
+
+			const file = document.getElementById('file'); 
+			const reader = new FileReader(); 
+			reader.readAsText(file.files[0]);
+			reader.addEventListener('load', function(evt){			
+				data = this.result; 
+
+				data = data.split(/\r?\n/);
+				data = data.reduce((a,b,i)=>{
+					if(i === 0 || !b || !b[0]){
+						return a; 
+					}				
+					b = b.split(',');
+					if(!isOutOfService(b)){
+						return a;
+					}
+
+					b = b[0]; 
+					if(b.toUpperCase().includes('ULRF')){
+						b = b.slice(3); 
+					}
+					else if(b.toUpperCase().includes('UL')){
+						b = b.slice(2); 
+	                 		}
+					else if(b.toUpperCase().includes('UCIQ')){
+						b = b.slice(3); 
+					}
+					 
+
+					a.push(b);
+					return a; 
+				}, []); 
+
+				console.log(data); 
+				document.getElementById('application').style.display='block'; 
+				document.getElementById('load').style.display='none'; 
+			});
+		});
+
+		
+		const control = document.getElementById('control');
+		const output = document.getElementById('output'); 
+		output.style.color = 'white'; 
+		output.style.width  = '30vw'; 
+		control.addEventListener('change', function(){
+			let input = control.value.trim();
+			if(input){
+				input = input.toUpperCase(); 
+			} 
+			if(data.includes(input)){
+				output.innerText = input + ' is out of service'; 
+				output.style.backgroundColor = 'red'; 
+			}
+			else{
+				output.innerText = input + ' is not out of service';  
+				output.style.backgroundColor = 'green';
+			}
+		
+			control.value = ''; 
+		});
+	</script>
+</body>
+</html>
