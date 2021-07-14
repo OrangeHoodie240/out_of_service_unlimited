@@ -3,15 +3,8 @@
 <html lang='en'>
 <head></head>
 <body>
-	<div id='load'>
-		<form id='form'>
-			<input type='file' id='file' /> 
-			<input type='submit' value='Use File' /> 
-		</form>
 
-	</div>
-
-	<div id='application' style='display: none' >
+	<div id='application' >
 		<input type='text' id='control' />
 		<p id='output'></p>
 		<h3>Directions</h3>
@@ -33,44 +26,11 @@
 			</ul>
 		</ul>
 	</div>
+	<script type='text/javascript' src='Expirations.js'></script>
 	<script>
-		
-		async function getCsv(){
-			const csv = await fetch('https://github.com/OrangeHoodie240/outOfServiceTrailerFilter/blob/master/Expirations.csv')
-				.then(resp =>{
-					return resp.json(); 
-				})
-				.then(data =>{
-					return data; 
-				});
-			console.log(csv);
-		}
-		getCsv(); 
-		function isOutOfService(trl){
-			trl = trl.slice(-4);
-			if(trl[2].toUpperCase().trim() === 'OUT OF SERVICE'){
-				return true; 
-			}
-			else if(trl[3].trim().toUpperCase() === 'REQUIRED' && trl[1].trim().toUpperCase() === 'PRE'){
-				return true;
-			}
-			return false;
-		}
-
-		const form = document.getElementById('form'); 
-		let data = null; 
-		form.addEventListener('submit', async function(evt){
-			evt.preventDefault(); 
-
-			const file = document.getElementById('file'); 
-			const reader = new FileReader(); 
-			reader.readAsText(file.files[0]);
-			reader.addEventListener('load', function(evt){			
-				data = this.result; 
-
-				data = data.split(/\r?\n/);
-				data = data.reduce((a,b,i)=>{
-					if(i === 0 || !b || !b[0]){
+		expirations = expirations.split(/\r?\n/);
+		expirations = expirations.reduce((a,b,i)=>{
+					if(!b || !b[0]){
 						return a; 
 					}				
 					b = b.split(',');
@@ -94,11 +54,18 @@
 					return a; 
 				}, []); 
 
-				console.log(data); 
-				document.getElementById('application').style.display='block'; 
-				document.getElementById('load').style.display='none'; 
-			});
-		});
+		console.log(expirations);
+		function isOutOfService(trl){
+			trl = trl.slice(-4);
+			if(trl[2].toUpperCase().trim() === 'OUT OF SERVICE'){
+				return true; 
+			}
+			else if(trl[3].trim().toUpperCase() === 'REQUIRED' && trl[1].trim().toUpperCase() === 'PRE'){
+				return true;
+			}
+			return false;
+		}
+
 
 		
 		const control = document.getElementById('control');
@@ -110,7 +77,7 @@
 			if(input){
 				input = input.toUpperCase(); 
 			} 
-			if(data.includes(input)){
+			if(expirations.includes(input)){
 				output.innerText = input + ' is out of service'; 
 				output.style.backgroundColor = 'red'; 
 			}

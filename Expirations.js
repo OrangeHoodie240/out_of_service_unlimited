@@ -1,8 +1,4 @@
-﻿Expirations,,,,,,,
-,,,,,,,
-,,,,,,,
-Resource ID,Percent,Days,Expiration Description,Expiration Date,Expiration Code,Expiration Name,Priority Status
-UCIQ021,29029%,26126,unit number decals,1/1/1950 12:02:00 AM,HOLD,Out of Service,Required
+var expirations = `UCIQ021,29029%,26126,unit number decals,1/1/1950 12:02:00 AM,HOLD,Out of Service,Required
 UL53260,1439%,1295,Storage(Svajunas M),12/26/2017 8:56:00 AM,HOLD,Out of Service,Required
 UL53553,778%,700,PM : 000-TPM : Descr : Trailer PM Service,8/13/2019 12:00:00 AM,PRE,Preventive Maint,Key Date
 UL53461,640%,576,PM : 000-TPM : Descr : Trailer PM Service,12/15/2019 12:00:00 AM,PRE,Preventive Maint,Key Date
@@ -263,3 +259,5 @@ UL53382,-34%,-31,PM : 000-DOT : Descr : Annual DOT Inspection,8/13/2021 12:00:00
 UL53372,-34%,-31,PM : 000-DOT : Descr : Annual DOT Inspection,8/13/2021 12:00:00 AM,PRE,Preventive Maint,Required
 UL53500,-34%,-31,PM : 000-DOT : Descr : Annual DOT Inspection,8/13/2021 12:00:00 AM,PRE,Preventive Maint,Required
 ,,,,,,,
+
+`;
