@@ -3,7 +3,12 @@
 <html lang='en'>
 <head></head>
 <body>
-
+	<nav>
+		<a href='/unlimited-out-of-service/submit'>Update page</a>
+		<br /> 
+		<br />
+		<br />
+	</nav>
 	<div id='application' >
 		<input type='text' id='control' />
 		<p id='output'></p>
@@ -26,7 +31,7 @@
 			</ul>
 		</ul>
 	</div>
-	<script type='text/javascript' src='Expirations.js'></script>
+	<script type='text/javascript' src='http://localhost:3000/unlimited/Expirations.js'></script>
 	<script>
 		expirations = expirations.split(/\r?\n/);
 		expirations = expirations.reduce((a,b,i)=>{
