@@ -6,7 +6,7 @@ form.addEventListener('submit', async (evt) => {
     const data = new FormData();
 
     data.append('myFile', myFile.files[0]);
-    await fetch('http://localhost:3000/unlimited-out-of-service', {
+    await fetch('https://steve-army.herokuapp.com/unlimited-out-of-service', {
         method: 'POST',
         body: data,
     })
