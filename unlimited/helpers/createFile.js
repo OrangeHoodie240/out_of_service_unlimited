@@ -1,6 +1,6 @@
 const fs = require('fs');
 const config = require('../../config');
-const S3 = require('aws-sdk/clients/s3');
+// const S3 = require('aws-sdk/clients/s3');
 
 
 // aws.config.region = 'us-east-2';
