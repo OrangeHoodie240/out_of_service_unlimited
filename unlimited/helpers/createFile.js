@@ -13,9 +13,9 @@ const s3 = new aws.S3({
 function uploadFile(path){
     fs.readFile(path, (err, data)=>{
         const params = {
-            key: 'Expirations.js', 
-            bucket: process.env.S3_BUCKET, 
-            body: data
+            Key: 'Expirations.js', 
+            Bucket: process.env.S3_BUCKET, 
+            Body: data
         }; 
 
         s3.upload(params,(err, info)=>{
