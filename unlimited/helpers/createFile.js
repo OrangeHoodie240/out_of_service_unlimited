@@ -1,8 +1,7 @@
 const fs = require('fs');
 const config = require('../../config');
-const aws = require('aws');
+const aws = require('aws-sdk');
 
-const upload = multer({storage});
 
 aws.config.region = 'us-east-2';
 const s3 = new aws.S3({
