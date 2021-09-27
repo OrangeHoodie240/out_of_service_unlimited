@@ -4,8 +4,8 @@ const path = require("path");
 const createFile = require('../helpers/createFile');
 const convertToCsv = require('../helpers/convertToCsv');
 const config = require('../../config');
-
 const multer = require('multer');
+const aws = require('aws');
 
 const storage = multer.diskStorage({
     destination: (req, file, cb)=>{
@@ -20,6 +20,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage});
 
+aws.config.region = 'us-east-2';
+const s3 = new aws.S3({
+    'accessKeyId': process.env.S3_ACCESS_KEY_ID, 
+    'secretAccessKey': process.env.S3_SECRET_ACCESS_KEY
+}); 
 
 
 router.get('/', (req, res, next) => {
