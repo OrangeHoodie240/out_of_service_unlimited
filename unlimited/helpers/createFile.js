@@ -1,31 +1,31 @@
 const fs = require('fs');
 const config = require('../../config');
-// const S3 = require('aws-sdk/clients/s3');
+const aws = require('aws-sdk');
 
 
-// aws.config.region = 'us-east-2';
-// const s3 = new S3({
-//     'accessKeyId': process.env.S3_ACCESS_KEY_ID, 
-//     'secretAccessKey': process.env.S3_SECRET_ACCESS_KEY
-// }); 
+aws.config.region = 'us-east-2';
+const s3 = new S3({
+    'accessKeyId': process.env.S3_ACCESS_KEY_ID, 
+    'secretAccessKey': process.env.S3_SECRET_ACCESS_KEY
+}); 
 
 
-// function uploadFile(path){
-//     fs.readFile(path, (err, data)=>{
-//         const params = {
-//             key: 'Expirations.js', 
-//             bucket: process.env.S3_BUCKET, 
-//             body: data
-//         }; 
+function uploadFile(path){
+    fs.readFile(path, (err, data)=>{
+        const params = {
+            key: 'Expirations.js', 
+            bucket: process.env.S3_BUCKET, 
+            body: data
+        }; 
 
-//         s3.upload(params,(err, info)=>{
-//             if(err){
-//                 throw err; 
-//             }
-//             console.log('success', info.Location);
-//         });
-//     });
-// }
+        s3.upload(params,(err, info)=>{
+            if(err){
+                throw err; 
+            }
+            console.log('success', info.Location);
+        });
+    });
+}
 
 
 function createFile(path){
@@ -48,7 +48,7 @@ function createFile(path){
                 console.error(err);
                 throw new Error();  
             }
-            // uploadFile(config.rootDir + '/static/unlimited/Expirations.js');
+            uploadFile(config.rootDir + '/static/unlimited/Expirations.js');
         }); 
     });
 
