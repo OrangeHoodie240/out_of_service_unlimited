@@ -33,16 +33,20 @@ router.get('/', (req, res, next) => {
         Bucket: process.env.S3_BUCKET,
         Key: 'Expirations.js'
     };
-        
-        s3.getObject(params, (err, data) => {
-            fs.writeFile(config.rootDir + '/static/unlimited/Expirations.js', data.Body.toString('utf-8'), (err => {
-                if (err) {
-                    throw err;
-                }
-            }));
-        });
+
+    s3.getObject(params, (err, data) => {
+        if (err) {
+            throw err;
+        }
+        fs.writeFile(config.rootDir + '/static/unlimited/Expirations.js', data.Body.toString('utf-8'), (err => {
+            if (err) {
+                throw err;
+            }
+            return res.sendFile(path.join(config.rootDir, './static/unlimited', 'index.html'));
+
+        }));
+    });
     // }
-    return res.sendFile(path.join(config.rootDir, './static/unlimited', 'index.html'));
 });
 
 router.get('/submit', (req, res, next) => {
