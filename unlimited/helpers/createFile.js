@@ -40,7 +40,7 @@ function isOutOfService(trl) {
 }
 
 function filterTrailers(data) {
-    data.reduce((a, b, i) => {
+    return data.reduce((a, b, i) => {
         if (i === 0 || !b || !b[0]) {
             return a;
         }
@@ -59,7 +59,6 @@ function filterTrailers(data) {
         a.push(b);
         return a;
     }, []);
-    return data;
 }
 
 function createFile(path) {
